@@ -1,0 +1,62 @@
+name: Publish to Packagist & Package Standalone Server
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: pdo, sqlite, pdo_sqlite, gd, zip
+
+    - name: Trigger Packagist Update
+      run: |
+        curl -XPOST -H 'content-type:application/json' \
+          "https://packagist.org/api/update-package?username=${{ secrets.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
+          -d '{"repository":{"url":"https://github.com/rakshitbharat/laravel-bucket"}}'
+
+    - name: Build Standalone Server Dependencies
+      run: |
+        cd standalone-server
+        composer install --no-dev --optimize-autoloader --no-interaction --no-security-blocking
+
+    - name: Publish LaraBucket Server Assets
+      run: |
+        php standalone-server/artisan vendor:publish --provider="LaraBucket\LaraBucketServiceProvider" --force
+
+    - name: Create ZIP Package
+      run: |
+        zip -r larabucket-standalone-server.zip standalone-server \
+          -x "standalone-server/.git/*" \
+          -x "standalone-server/.env" \
+          -x "standalone-server/storage/app/public/*" \
+          -x "standalone-server/storage/framework/cache/*" \
+          -x "standalone-server/storage/framework/sessions/*" \
+          -x "standalone-server/storage/framework/views/*" \
+          -x "standalone-server/storage/logs/*"
+        zip -r larabucket-standalone-server.zip \
+          standalone-server/storage/framework/cache/data/.gitignore \
+          standalone-server/storage/framework/sessions/.gitignore \
+          standalone-server/storage/framework/views/.gitignore \
+          standalone-server/storage/logs/.gitignore
+
+    - name: Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      with:
+        files: larabucket-standalone-server.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

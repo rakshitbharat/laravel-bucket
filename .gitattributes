@@ -1,0 +1,10 @@
+/larabucket-standalone-server.zip export-ignore
+/docs export-ignore
+/tests export-ignore
+/.github export-ignore
+/.agents export-ignore
+/database.sqlite export-ignore
+/Dockerfile export-ignore
+/docker-compose.yml export-ignore
+/start-server.sh export-ignore
+/phpunit.xml export-ignore

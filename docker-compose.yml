@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  test-runner:
+    build: .
+    container_name: larabucket_test_runner
+    volumes:
+      - .:/app
+    environment:
+      - APP_ENV=testing
+
+  web-server:
+    build: .
+    container_name: larabucket_web_server
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/app/database.sqlite
+      - LARABUCKET_SERVER_ENABLED=true
+      - LARABUCKET_SERVER_DISK=public
+      - LARABUCKET_ADMIN_EMAIL=super@admin.com
+      - LARABUCKET_ADMIN_PASSWORD=password
+      - LARABUCKET_SERVER_URL=http://localhost:8000
+    command: ./start-server.sh

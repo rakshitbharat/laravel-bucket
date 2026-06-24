@@ -1,0 +1,14 @@
+# LaraBucket Shared Hosting Rewrite Rules
+# This file transparently routes all requests to the public/ directory
+# so that you do not need to change the server configuration or point
+# your domain specifically to the public/ folder on shared hosting.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Do not rewrite if request is already inside the public/ folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    
+    # Rewrite all requests to the public/ folder
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
