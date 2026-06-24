@@ -1,0 +1,19 @@
+name: Publish to Packagist
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger Packagist Update
+      uses: musonza/github-action-packagist@v1
+      with:
+        package_name: 'larabucket/laravel'
+        username: ${{ secrets.PACKAGIST_USERNAME }}
+        api_token: ${{ secrets.PACKAGIST_API_TOKEN }}

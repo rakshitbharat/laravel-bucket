@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  test-runner:
+    build: .
+    container_name: larabucket_test_runner
+    volumes:
+      - .:/app
+    environment:
+      - APP_ENV=testing
