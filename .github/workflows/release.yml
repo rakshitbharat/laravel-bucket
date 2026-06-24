@@ -44,10 +44,23 @@ jobs:
           -x "standalone-server/.git/*" \
           -x "standalone-server/.env" \
           -x "standalone-server/storage/app/public/*" \
-          -x "standalone-server/storage/framework/cache/*" \
+          -x "standalone-server/storage/framework/cache/data/*" \
           -x "standalone-server/storage/framework/sessions/*" \
           -x "standalone-server/storage/framework/views/*" \
-          -x "standalone-server/storage/logs/*"
+          -x "standalone-server/storage/logs/*" \
+          -x "standalone-server/vendor/psy/*" \
+          -x "standalone-server/vendor/nikic/*" \
+          -x "standalone-server/vendor/laravel/tinker/*" \
+          -x "standalone-server/vendor/laravel/prompts/*" \
+          -x "standalone-server/vendor/*/test/*" \
+          -x "standalone-server/vendor/*/tests/*" \
+          -x "standalone-server/vendor/*/Tests/*" \
+          -x "standalone-server/vendor/*/Test/*" \
+          -x "standalone-server/vendor/*/.git/*" \
+          -x "standalone-server/vendor/*/docs/*" \
+          -x "standalone-server/vendor/*/doc/*" \
+          -x "standalone-server/vendor/*/CHANGELOG*" \
+          -x "standalone-server/vendor/*/*/CHANGELOG*"
         zip -r larabucket-standalone-server.zip \
           standalone-server/storage/framework/cache/data/.gitignore \
           standalone-server/storage/framework/sessions/.gitignore \
