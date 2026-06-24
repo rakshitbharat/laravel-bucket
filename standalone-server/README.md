@@ -62,32 +62,46 @@ Laravel serves public files through a symbolic link from `public/storage` to `st
 
 ### 5. Environment Configuration (`.env`)
 1. In the file manager, rename `.env.example` to **`.env`**.
-2. Open the **`.env`** file and update the database details with your database credentials:
+2. Open the **`.env`** file and fill in your values. Here is a **complete, production-ready example**:
 
 ```ini
+APP_NAME=LaraBucket
+APP_ENV=production
+APP_KEY=base64:YOUR_GENERATED_KEY_HERE
+APP_DEBUG=false
+APP_URL=https://your-domain.com
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+# ── Database (MySQL) ──────────────────────────
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=your_database_name
 DB_USERNAME=your_database_user
 DB_PASSWORD=your_database_password
-```
 
-3. Update the key configuration variables:
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
 
-```ini
-APP_NAME="LaraBucket Storage"
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://storage.yourdomain.com
-
-# LaraBucket Server Settings
+# ── LaraBucket Server ─────────────────────────
+# LARABUCKET_SERVER_URL must match APP_URL exactly.
+# This value is used to build the public file URLs returned by the API.
 LARABUCKET_SERVER_ENABLED=true
 LARABUCKET_SERVER_DISK=public
-LARABUCKET_ADMIN_EMAIL=admin@yourdomain.com
-LARABUCKET_ADMIN_PASSWORD=your_secure_password
-LARABUCKET_SERVER_URL=https://storage.yourdomain.com
+LARABUCKET_ADMIN_EMAIL=super@admin.com
+LARABUCKET_ADMIN_PASSWORD=password
+LARABUCKET_SERVER_URL=https://your-domain.com
 ```
+
+> [!IMPORTANT]
+> **`APP_URL` and `LARABUCKET_SERVER_URL` must be identical** and must use your real domain (including `https://`). If they differ or still say `localhost`, the file URLs returned by the API will be wrong.
 
 ---
 
