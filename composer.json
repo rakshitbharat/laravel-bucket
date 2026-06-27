@@ -1,5 +1,5 @@
 {
-    "name": "larabucket/laravel",
+    "name": "laravel-bucket",
     "description": "LaraBucket is a self-hosted object storage solution for Laravel apps.",
     "type": "library",
     "license": "MIT",
